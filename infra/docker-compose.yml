@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  rocketchat:
+    image: registry.rocket.chat/rocketchat/rocket.chat:6.1.6
+    restart: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.rocketchat.rule: Host
+      traefik.http.routers.rocketchat.tls: "true"
+      traefik.http.routers.rocketchat.entrypoints: https
+      traefik.http.routers.rocketchat.tls.certresolver: le
+    environment:
+      MONGO_URL: "mongodb://mongodb:27017/rocketchat?replicaSet=rs0"
+      MONGO_OPLOG_URL: "mongodb://mongodb:27017/local?replicaSetrs0"
+      ROOT_URL: "http://localhost:3000" 
+      PORT: 3000
+      DEPLOY_METHOD: docker
+      DEPLOY_PLATFORM: ${DEPLOY_PLATFORM}
+    depends_on:
+      - mongodb
+    expose:
+      - 3000
+    ports:
+      - "${ROCKET_PORT}:3000"
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.4
+    restart: always
+    volumes:
+      - mongodb_data:/bitnami/mongodb
+    environment:
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_NAME: ${MONGODB_REPLICA_SET_NAME:-rs0}
+      MONGODB_PORT_NUMBER: ${MONGODB_PORT_NUMBER:-27017}
+      MONGODB_INITIAL_PRIMARY_HOST: ${MONGODB_INITIAL_PRIMARY_HOST:-mongodb}
+      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: ${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}
+      MONGODB_ADVERTISED_HOSTNAME: ${MONGODB_ADVERTISED_HOSTNAME:-mongodb}
+      MONGODB_ENABLE_JOURNAL: ${MONGODB_ENABLE_JOURNAL:-true}
+      ALLOW_EMPTY_PASSWORD: ${ALLOW_EMPTY_PASSWORD:-yes}
+  postgres:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ~/.kos/mount/staging/postgres:/data/postgres
+    ports:
+      - '${DATABASE_PORT}:5432'
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - '${REDIS_PORT}:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - ~/.kos/mount/staging/redis:/data 
+  rabbitmq:
+    image: heidiks/rabbitmq-delayed-message-exchange:3.10.2-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_USER}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "1273:15672"
+    volumes:
+      - ~/.kos/mount/staging/rabbitmq:/var/lib/rabbitmq
+      
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - 22181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    volumes:
+      - ~/.kos/mount/staging/zookeeper:/bitnami/zookeeper
+  kafka:
+    image: bitnami/kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - ${KAFKA_PORT}:29092
+    volumes:
+      - ~/.kos/mount/staging/kafka:/bitnami/kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092, EXTERNAL://${PUBLIC_IP}:${KAFKA_PORT}
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092, EXTERNAL://:29092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, EXTERNAL:PLAINTEXT
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ENABLE_KRAFT: "no"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+  
+
+
+
+volumes:
+  mongodb_data: { driver: local }

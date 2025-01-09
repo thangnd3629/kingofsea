@@ -1,0 +1,68 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  main:
+    allow-circular-references: true
+  liquibase:
+    enabled: false
+    changeLog: "classpath:db/changelog/changelog-master.xml"
+  servlet:
+    multipart:
+      max-request-size: 5MB
+      max-file-size: 5MB
+      file-size-threshold: 2KB
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    jpa:
+      show-sql: false
+      properties:
+        hibernate:
+          format_sql: true
+          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+          generate_statistics: false
+          jdbc:
+            batch_size: 50
+            time_zone: UTC
+          order_inserts: true
+      hibernate:
+        ddl-auto: none
+logging:
+  level:
+    "liquibase": info
+auth:
+  cache:
+    timeout: 5
+sendgrid:
+  masterEmail: supertech.dev123@gmail.com
+  token: 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
+website-url: https://marketplaceradiantgalaxy.sute.dev
+default-avatar: https://storage.googleapis.com/gateplay-public-bucket/dev/avatar/Account_Panel_AvartarDefaul.png
+jwt:
+  secret: mysecretttttttttttttttttttttttttttttttttttttttttttttttt
+  expiry:
+    verify-session: 10
+    access:
+      user: 5
+      admin: 480
+verify-session:
+  timeout: 10
+  period: 10
+  register:
+    attempts: 3
+login-session:
+  timeout: 10
+login:
+  attempts: 5
+  lock-time-duration: 5
+redis:
+  host: 118.70.125.195
+  port: 1279
+seamap:
+  size: 2000
+  parcel-size: 100

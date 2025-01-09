@@ -1,0 +1,7 @@
+do:
+  space:
+    key: 7BKBQJSQBTXUU5XV4E3K
+    secret: RnlL9zBiI09rOWhUy6e+sASG5sEJngVg8owMAsNAChI
+    endpoint: sgp1.digitaloceanspaces.com
+    region: sgp1
+    bucket: kingofsea

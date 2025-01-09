@@ -1,0 +1,21 @@
+package com.supergroup.kos.building.domain.constant.research;
+
+public enum TargetType {
+    NONE,
+    UNLOCK_BUILDING,
+    WOOD_PRODUCTION,
+    STONE_PRODUCTION,
+    GOLD_PRODUCTION,
+    CAPACITY_GOLD,
+    CAPACITY_STORAGE,
+    EFFECT_RELIC_ITEM,
+    UPGRADE_BUILDING_TIME,
+    UNLOCK_TECHNOLOGY_TYPE,
+    MAX_RELIC_SLOT,
+    UNLOCK_FEATURE,
+    SPEED_BUILD_ESCORT_SHIP,
+    MELEE,
+    RANGER,
+    HEAVY,
+    PROTECT_RESOURCE
+}

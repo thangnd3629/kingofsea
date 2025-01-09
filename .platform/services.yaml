@@ -1,0 +1,30 @@
+# The services of the project.
+#
+# Each service listed will be deployed
+# to power your Platform.sh project.
+
+database:
+  type: oracle-mysql:5.7
+  disk: 1024
+  configuration:
+    schemas:
+      - bitplay
+    endpoints:
+      mysql:
+        default_schema: bitplay
+        privileges:
+          bitplay: admin
+redis:
+  type: redis-persistent:6.0
+  disk: 256
+kafka:
+  type: kafka:2.5
+  disk: 512
+varnish:
+  type: varnish:6.0
+  relationships:
+    server1: 'sdk-1:http'
+  configuration:
+    vcl: !include
+      type: string
+      path: config.vcl

@@ -1,0 +1,1 @@
+docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && cd ./kos && export KOS_APP_VERSION=$VERSION && export UPGRADING_VERSION=$VERSION && export ADMIN_VERSION=$VERSION && export CRON_JOB_VERSION=$VERSION && docker-compose pull kos upgrading kos-admin && docker-compose up -d --build --force-recreate --no-deps kos upgrading kos-admin cron-job
