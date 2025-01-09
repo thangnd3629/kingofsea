@@ -1,0 +1,26 @@
+package com.supergroup.core.constant;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@AllArgsConstructor
+@ToString
+public enum ConfigKey {
+    COMMON("Common"),
+    INIT_ASSET_KOS("INIT_ASSET_KOS"),
+    FREQUENCY_ASSET("FREQUENCY_ASSET"),
+    SEA_MAP("SEA_MAP"),
+    ZONE_SEA("ZONE_SEA"),
+    SPEED_SOLDIER_CONFIG("SPEED_SOLDIER_CONFIG"),
+    SEA_MAP_REFRESH("SEA_MAP_REFRESH"),
+    BATTLE_FIELD_DAMAGE_CONFIG("BATTLE_FIELD_DAMAGE_CONFIG"),
+    BATTLE_REWARD_CONFIG("BATTLE_REWARD_CONFIG"),
+    BATTLE_TIME_CONFIG("BATTLE_TIME_CONFIG"),
+    DEF_BATTLE_CONFIG("DEF_BATTLE_CONFIG"),
+    OCCUPY_EFFECT_CONFIG("OCCUPY_EFFECT_CONFIG"),
+    TAX_ON_OCCUPIED_BASE("TAX_ON_OCCUPIED_BASE");
+
+    String name;
+}

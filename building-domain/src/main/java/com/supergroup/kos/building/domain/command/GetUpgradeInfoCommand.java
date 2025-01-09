@@ -1,0 +1,11 @@
+package com.supergroup.kos.building.domain.command;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public class GetUpgradeInfoCommand {
+    private final Long level;
+    private final Long kosProfileId;
+}

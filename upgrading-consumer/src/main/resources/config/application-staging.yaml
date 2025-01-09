@@ -1,0 +1,60 @@
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false
+    host: rabbitmq
+    port: 5672
+    username: kos
+    password: kos
+  datasource:
+    hikari:
+      maximum-pool-size: 2
+    url: jdbc:postgresql://postgres:5432/kos
+    username: kos
+    password: kos!1@
+redis:
+  host: redis
+  port: 6379
+jwt:
+  secret: mysecretttttttttttttttttttttttttttttttttttttttttttttttt
+  expiry:
+    verify-session: 10
+    access:
+      user: 5000
+      admin: 480
+verify-session:
+  timeout: 10
+  period: 10
+  register:
+    attempts: 3
+login-session:
+  timeout: 10
+login:
+  attempts: 5
+  lock-time-duration: 5
+auth:
+  cache:
+    timeout: 5
+webview:
+  link: ${RG_WEBSITE_URL}
+website-url: https://marketplaceradiantgalaxy.sute.dev
+sentry:
+  dsn: https://a7cab0a9e9fc4221be2b85871538498a@o4504098588131328.ingest.sentry.io/4504098606940160
+  # Set traces-sample-rate to 1.0 to capture 100% of transactions for performance monitoring.
+  # We recommend adjusting this value in production.
+  traces-sample-rate: 1.0
+  environment: staging
+telegram:
+  bot:
+    token: 5479185678:AAHSEzMWnWF2nb2p9n7On__wSgiKTRfakjg
+# game config
+seamap:
+  size: 2000
+  parcel-size: 100
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+    log-spans: false

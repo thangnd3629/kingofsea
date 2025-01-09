@@ -1,0 +1,103 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  liquibase:
+    enabled: false
+    change-log: "classpath:db/changelog/dev/changelog-master.xml"
+  servlet:
+    multipart:
+      max-request-size: 5MB
+      max-file-size: 5MB
+      file-size-threshold: 2KB
+      enabled: true
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: kos
+    password: kos
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    jpa:
+      show-sql: false
+      properties:
+        hibernate:
+          format_sql: true
+          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+          generate_statistics: false
+          jdbc:
+            batch_size: 50
+            time_zone: UTC
+          order_inserts: true
+      hibernate:
+        ddl-auto: none
+logging:
+  level:
+    "liquibase": INFO
+    org:
+      hibernate:
+        SQL: off
+        type:
+          descriptor:
+            sql:
+              BasicBinder: off
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+auth:
+  cache:
+    timeout: 5
+sendgrid:
+  masterEmail: supertech.dev123@gmail.com
+  token: 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
+website-url: https://marketplaceradiantgalaxy.sute.dev
+default-avatar: https://storage.googleapis.com/gateplay-public-bucket/dev/avatar/Account_Panel_AvartarDefaul.png
+jwt:
+  secret: mysecretttttttttttttttttttttttttttttttttttttttttttttttt
+  expiry:
+    verify-session: 10
+    access:
+      user: ${KOS_EXPIRY_ACCESS_USER}
+      admin: 480
+verify-session:
+  timeout: 10
+  period: 10
+  register:
+    attempts: 3
+login-session:
+  timeout: ${KOS_EXPIRY_ACCESS_USER}
+login:
+  attempts: 5
+  lock-time-duration: 5
+redis:
+  host: redis
+  port: 6379
+app:
+  firebase-configuration-file: messenger-5c285-firebase-adminsdk-r382b-1676b91f01.json
+do:
+  space:
+    key: 7BKBQJSQBTXUU5XV4E3K
+    secret: RnlL9zBiI09rOWhUy6e+sASG5sEJngVg8owMAsNAChI
+    endpoint: sgp1.digitaloceanspaces.com
+    region: sgp1
+    bucket: kingofsea
+sentry:
+  dsn: https://b30b921e0773494b9f59972735f386fd@o1383702.ingest.sentry.io/6701143
+  # Set traces-sample-rate to 1.0 to capture 100% of transactions for performance monitoring.
+  # We recommend adjusting this value in production.
+  traces-sample-rate: 1.0
+  environment: dev
+telegram:
+  bot:
+    token: 5479185678:AAHSEzMWnWF2nb2p9n7On__wSgiKTRfakjg
+# game config
+seamap:
+  size: 2000
+  parcel-size: 100

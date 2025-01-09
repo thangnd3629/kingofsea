@@ -1,0 +1,15 @@
+package com.supergroup.kos.building.domain.model.battle;
+
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+@Getter
+@Setter
+@Accessors(chain = true)
+public class WarParties {
+    private Long         kosProfileId;
+    private List<String> items;
+}

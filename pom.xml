@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>kos-app</module>
+    <module>core</module>
+    <module>cache-service</module>
+    <module>asset-service</module>
+    <module>auth-domain</module>
+    <module>email-service</module>
+    <module>admin-domain</module>
+    <module>message-service</module>
+    <module>notification-domain</module>
+    <module>admin-app</module>
+    <module>building-domain</module>
+    <module>cli-app</module>
+    <module>upgrading-consumer</module>
+    <module>cron-job</module>
+  </modules>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.2</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.supergroup</groupId>
+  <artifactId>kos</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>kos</name>
+  <description>kos</description>
+
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <org.mapstruct.version>1.5.1.Final</org.mapstruct.version>
+    <spring.amqp.version>2.4.6</spring.amqp.version>
+    <com.google.guava>31.1-jre</com.google.guava>
+    <com.google.code.gson>2.9.0</com.google.code.gson>
+    <com.fasterxml.jackson.core>2.13.3</com.fasterxml.jackson.core>
+    <liquibase-hibernate5.version>4.3.5</liquibase-hibernate5.version>
+    <javassist.version>3.24.0-GA</javassist.version>
+    <validation-api.version>2.0.1.Final</validation-api.version>
+    <hibernate5.version>5.5.3.Final</hibernate5.version>
+    <spring-boot.data.redis>2.6.3</spring-boot.data.redis>
+    <redis.clients.jedis>4.2.0</redis.clients.jedis>
+    <commons.io>2.7</commons.io>
+    <org.liquibase>4.11.0</org.liquibase>
+    <com.google.firebase.admin>7.0.0</com.google.firebase.admin>
+    <com.amazon.sdk>1.12.213</com.amazon.sdk>
+    <spring.bean>5.3.22</spring.bean>
+  </properties>
+
+  <dependencies>
+    <!-- lombok-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <!-- logger -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+    <!-- mapstruct -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${org.mapstruct.version}</version>
+    </dependency>
+    <!-- guava -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${com.google.guava}</version>
+    </dependency>
+    <!-- apache common -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <!-- fasterxml annotion -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${com.fasterxml.jackson.core}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons.io}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- spring web -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.skyscreamer</groupId>
+          <artifactId>jsonassert</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.pengrad</groupId>
+      <artifactId>java-telegram-bot-api</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${org.mapstruct.version}</version>
+            </path>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+            <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok-mapstruct-binding</artifactId>
+              <version>0.2.0</version>
+            </dependency>
+          </annotationProcessorPaths>
+          <compilerArgs>
+            <compilerArg>
+              -Amapstruct.defaultComponentModel=spring
+            </compilerArg>
+            <compilerArg>
+              -Amapstruct.verbose=true
+            </compilerArg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

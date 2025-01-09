@@ -1,0 +1,32 @@
+stages:
+  - package
+  - deploy
+package:
+  stage: package
+  only:
+    refs:
+      - development
+  tags:
+    - kos
+  script:
+    - echo "Login docker"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo "Build and deploy version $(cat ./VERSION)-dev"
+    - ./build.admin.dev.sh
+    - ./build.kos.dev.sh
+    - ./build.upgrading.dev.sh
+    - ./build.cronjob.dev.sh
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - development
+  tags:
+    - kos
+  before_script:
+    - chmod og= $DEV_PRIVATE_KEY
+    - VERSION=$(cat ./VERSION.txt)-dev
+    - DEPLOY_SCRIPT=$(cat ./deploy_script.sh)
+  script:
+    - echo "Connect to VPS by ssh $DEV_SSH_USER@$DEV_SSH_HOST:$DEV_SSH_PORT and deploy $VERSION"
+    - ssh -i $DEV_PRIVATE_KEY $DEV_SSH_USER@$DEV_SSH_HOST -p $DEV_SSH_PORT -o StrictHostKeyChecking=no "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && cd ./kos && export KOS_APP_VERSION=$VERSION && export UPGRADING_VERSION=$VERSION && export ADMIN_VERSION=$VERSION && export CRON_JOB_VERSION=$VERSION && docker-compose pull kos upgrading kos-admin && docker-compose up -d --build --force-recreate --no-deps kos upgrading kos-admin cron-job"

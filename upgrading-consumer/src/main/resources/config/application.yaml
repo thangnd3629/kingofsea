@@ -1,0 +1,9 @@
+server:
+  port: 6789
+  servlet:
+    context-path: /
+spring:
+  liquibase:
+    enabled: false
+  application:
+    name: KOS Consumer
